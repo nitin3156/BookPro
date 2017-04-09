@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="all">
+        <item
+            android:title="Collection">
+        <menu>
+
+       <item android:id="@+id/books"
+        android:icon="@drawable/vector_drawable_book"
+        android:title="Books" />
+        </menu>
+</item>
+        <item
+            android:title="Service">
+            <menu>
+                <item
+                    android:id="@+id/barcode"
+                    android:icon="@drawable/vector_drawable_supermarket_barcode"
+                    android:title="Scan Code" />
+        <item
+            android:id="@+id/offers"
+            android:icon="@drawable/vector_drawable_discount"
+            android:title="Offers"/>
+        <item
+            android:id="@+id/notif"
+            android:icon="@drawable/vector_drawable_notification_bell"
+            android:title="Notification"/>
+        </menu>
+        </item>
+
+        <item
+            android:title="User">
+            <menu>
+        <item
+            android:id="@+id/cart"
+            android:icon="@drawable/vector_drawable_verification"
+            android:title="My Cart"/>
+        <item
+            android:id="@+id/wish"
+            android:icon="@drawable/vector_drawable_wishlist"
+            android:title="My Wishlist"/>
+        <item
+            android:id="@+id/order"
+            android:icon="@drawable/vector_drawable_delivery_truck"
+            android:title="My Orders"/>
+        <item
+            android:id="@+id/acc"
+            android:icon="@drawable/vector_drawable_round_account_button_with_user_inside"
+            android:title="My Account"/>
+        </menu>
+        </item>
+    </group>
+</menu>

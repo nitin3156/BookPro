@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "987417808402",
+    "firebase_url": "https://book-pro.firebaseio.com",
+    "project_id": "book-pro",
+    "storage_bucket": "book-pro.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:987417808402:android:f48cea0547ec485d",
+        "android_client_info": {
+          "package_name": "com.mundev.bookpro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "987417808402-dhd5neooi5sg8f64kvld9s5pfrmrqpq7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mundev.bookpro",
+            "certificate_hash": "3917D5951FA81B704FDF765024D9FC4DFA2AA0B5"
+          }
+        },
+        {
+          "client_id": "987417808402-ncdnfiolrk4j34g0k1gb5cq461u3eicm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAmtYW-UymVD9u_4icKneMyQlxaVQotIHY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "987417808402-ncdnfiolrk4j34g0k1gb5cq461u3eicm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
