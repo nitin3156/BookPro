@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
@@ -48,6 +49,7 @@ public class Usercart extends Fragment implements SwipeRefreshLayout.OnRefreshLi
     private ProgressDialog loading;
     String user_mail;
     Context mycontext;
+    TextView textView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mycontext = container.getContext();
@@ -57,14 +59,14 @@ public class Usercart extends Fragment implements SwipeRefreshLayout.OnRefreshLi
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
        // Toast.makeText(getContext(),user_mail,Toast.LENGTH_SHORT).show();
-        FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
+      /*  FloatingActionButton fab = (FloatingActionButton) getActivity().findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });recyclerView = (RecyclerView)getActivity().findViewById(R.id.recycler_view1);
+        });*/recyclerView = (RecyclerView)getActivity().findViewById(R.id.recycler_view1);
         albumList = new ArrayList<>();
         albumList.clear();
         Bundle bundle = this.getArguments();
@@ -75,11 +77,26 @@ public class Usercart extends Fragment implements SwipeRefreshLayout.OnRefreshLi
         swipeRefreshLayout=(SwipeRefreshLayout)getActivity().findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(mycontext, 1);
-
+        textView=(TextView)getActivity().findViewById(R.id.text_price);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         getData();
+       textView.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               if(arrayList1.size()>0) {
+                   Intent intent = new Intent(mycontext, ConfirmOrder.class);
+                   String pp = String.valueOf(total_price);
+                   intent.putExtra("price", pp);
+                   intent.putExtra("id", idstring);
+                   startActivity(intent);
+               }
+               else {
+                   Toast.makeText(mycontext,"Cart is Empty!!! Please add some product",Toast.LENGTH_SHORT).show();
+               }
+           }
+       });
 
     }
     @Override
@@ -87,6 +104,7 @@ public class Usercart extends Fragment implements SwipeRefreshLayout.OnRefreshLi
        // int a=adapter.getItemCount();
        // adapter.notifyItemRangeRemoved(0,a);
         albumList.clear();
+        total_price=0;
         recyclerView.getRecycledViewPool().clear();
        // Toast.makeText(getApplication(),String.valueOf(a),Toast.LENGTH_SHORT).show();
         recyclerView.removeAllViewsInLayout();
@@ -158,6 +176,8 @@ public class Usercart extends Fragment implements SwipeRefreshLayout.OnRefreshLi
     /**
      * Adding few albums for testing
      */
+    int total_price=0;
+    String price1,idstring="";
     private void prepare() {
         for (int i = 0; i < arrayList.size(); i++) {
 
@@ -165,12 +185,23 @@ public class Usercart extends Fragment implements SwipeRefreshLayout.OnRefreshLi
             String bar = arrayList1.get(i);
             String imgsrc = arrayList2.get(i);
             String price = arrayList3.get(i);
+            price1=price;
+            price1=price1.replace(",","");
+            total_price=total_price+Integer.parseInt(price1);
             String id=arrayList4.get(i);
+            idstring=idstring+id+" ";
             Books a = new Books(product, bar,imgsrc,price,id);
             albumList.add(a);
 
         }
-
+        if(arrayList1.size()==0)
+        {
+            textView.setText("Cart is Empty!!! Please add some product");
+        }
+        else {
+            textView.setText("Total price is" + " " + String.valueOf(total_price));
+        }
+        //total_price=0;
         adapter.notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);
     }

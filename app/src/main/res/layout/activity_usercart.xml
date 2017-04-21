@@ -2,12 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/rel"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.mundev.bookpro.Usercart">
-
-
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="625dp"
+    android:id="@+id/rele">
     <include layout="@layout/content_usercart" />
+</RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:background="@color/colorPrimaryDark"
+        android:layout_below="@+id/rele">
 
+    <TextView
+        android:id="@+id/text_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:text="Total price"
+        android:textColor="#fff"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+        </RelativeLayout>
 
 </RelativeLayout>

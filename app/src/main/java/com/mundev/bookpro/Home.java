@@ -72,15 +72,15 @@ public class Home extends AppCompatActivity
         String personPhotoUrl = intent.getStringExtra("personPhotoUrl");
         st1 = intent.getStringExtra("name");
         st2 = intent.getStringExtra("emailp");
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+       // FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+       /* fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
-        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#004d40")));
+        fab.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#004d40")));*/
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         View header = navigationView.getHeaderView(0);
         imageView = (ImageView) header.findViewById(R.id.imageView);
@@ -237,6 +237,7 @@ public class Home extends AppCompatActivity
             Toast.makeText(getApplicationContext(), scanContent, Toast.LENGTH_SHORT).show();
             Bundle bundle = new Bundle();
             bundle.putString("scanContent", scanContent);
+            bundle.putString("st2",st2);
             Data fragment = new Data();
             fragment.setArguments(bundle);
             fragmentManager.beginTransaction()

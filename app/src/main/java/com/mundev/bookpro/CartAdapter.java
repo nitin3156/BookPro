@@ -127,6 +127,7 @@ String mail;
 
         Glide.with(mContext).load(album.getImgurl()).into(holder.thumbnail);
         holder.item.setText(album.getId());
+        holder.item.setVisibility(View.INVISIBLE);
         //holder.item.setVisibility(View.INVISIBLE);
 
        holder.overflow.setOnClickListener(new View.OnClickListener() {

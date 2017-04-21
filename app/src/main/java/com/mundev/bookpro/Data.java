@@ -44,32 +44,46 @@ public class Data extends Fragment {
     private ProgressDialog loading;
     String scanContent;
     Context mycontext;
-    public TextView title, count,item;
-    public ImageView thumbnail, overflow;
+    public TextView title, count,item,title1, count1,item1;
+    public ImageView thumbnail, overflow,thumbnail1, overflow1,book1;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mycontext = container.getContext();
         return inflater.inflate(R.layout.activity_data, container, false);
     }
-
+String user_mail;
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             scanContent = bundle.getString("scanContent");
+            user_mail= bundle.getString("st2");
         }
+
+
+
         //scanContent = intent.getStringExtra("scanContent");
         title = (TextView)getActivity().findViewById(R.id.title);
         count = (TextView)getActivity().findViewById(R.id.count);
         thumbnail = (ImageView)getActivity().findViewById(R.id.thumbnail);
         overflow = (ImageView)getActivity().findViewById(R.id.overflow);
         item=(TextView)getActivity().findViewById(R.id.item);
+        title1 = (TextView)getActivity().findViewById(R.id.title1);
+        count1 = (TextView)getActivity().findViewById(R.id.count1);
+        thumbnail1 = (ImageView)getActivity().findViewById(R.id.thumbnail1);
+        overflow1 = (ImageView)getActivity().findViewById(R.id.overflow1);
+        item1=(TextView)getActivity().findViewById(R.id.item1);
+        book1=(ImageView)getActivity().findViewById(R.id.tbook);
         getData();
     }
 
-
+    String pro="",pro1="";
+    String bar="",bar1="";
+    String pr = "",pr1="";
+    String id="",id1="";
+    String image="",image1= "";
     private void getData() {
 
         loading = ProgressDialog.show(mycontext,"Please wait...","Fetching...",false,false);
@@ -80,7 +94,57 @@ public class Data extends Fragment {
             @Override
             public void onResponse(String response) {
                 loading.dismiss();
-                showJSON(response);
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray result = jsonObject.getJSONArray(Config.JSON_ARRAY);
+                    JSONObject bookpro_json = result.getJSONObject(0);
+                    pro = bookpro_json.getString(Config.KEY_PRODUCT);
+                    bar = bookpro_json.getString(Config.KEY_BARCODE);
+                    pr = bookpro_json.getString(Config.KEY_PRICE);
+                    image=bookpro_json.getString(Config.KEY_IMAGEURL);
+                    id=bookpro_json.getString("id");
+                    Glide.with(mycontext).load(image)
+                            .thumbnail(0.5f)
+                            .crossFade()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(book1);
+
+
+                    if(id.equals("null"))
+                    {
+
+                        Glide.with(mycontext).load("http://g-ec2.images-amazon.com/images/G/01/social/api-share/amazon_logo_500500._V323939215_.png")
+                                .thumbnail(0.5f)
+                                .crossFade()
+                                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                .into(thumbnail);
+                        title.setText("Not Found");
+                        count.setText("Not found");
+                        overflow.setVisibility(View.INVISIBLE);
+                    }
+                    else {
+                        int ip=Integer.parseInt(id);
+                        if(ip<190) {
+                            Glide.with(mycontext).load("http://g-ec2.images-amazon.com/images/G/01/social/api-share/amazon_logo_500500._V323939215_.png")
+                                    .thumbnail(0.5f)
+                                    .crossFade()
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                                    .into(thumbnail);
+                            title.setText(pro);
+                            count.setText(pr);
+                        }
+                    }
+                    overflow.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            showPopupMenu(overflow);
+                        }
+                    });
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         },
                 new Response.ErrorListener() {
@@ -92,43 +156,64 @@ public class Data extends Fragment {
 
         RequestQueue requestQueue = Volley.newRequestQueue(mycontext);
         requestQueue.add(stringRequest);
-    }
-    String pro="";
-    String bar="";
-    String pr = "";
-    String id="";
-    String image = "";
-    private void showJSON(String response){
-
-        try {
-            JSONObject jsonObject = new JSONObject(response);
-            JSONArray result = jsonObject.getJSONArray(Config.JSON_ARRAY);
-            JSONObject bookpro_json = result.getJSONObject(0);
-            pro = bookpro_json.getString(Config.KEY_PRODUCT);
-            bar = bookpro_json.getString(Config.KEY_BARCODE);
-            pr = bookpro_json.getString(Config.KEY_PRICE);
-            image=bookpro_json.getString(Config.KEY_IMAGEURL);
-            id=bookpro_json.getString("id");
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        Glide.with(mycontext).load(image)
-                .thumbnail(0.5f)
-                .crossFade()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(thumbnail);
-        title.setText(pro);
-        count.setText(pr);
-        overflow.setOnClickListener(new View.OnClickListener() {
+        StringRequest stringRequest1 = new StringRequest("http://bookpro.pe.hu/getData1.php?Barcode="+scanContent, new Response.Listener<String>() {
             @Override
-            public void onClick(View view) {
-                showPopupMenu(overflow);
+            public void onResponse(String response) {
+                loading.dismiss();
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray result = jsonObject.getJSONArray(Config.JSON_ARRAY);
+                    JSONObject bookpro_json = result.getJSONObject(0);
+                    pro1 = bookpro_json.getString(Config.KEY_PRODUCT);
+                    bar1 = bookpro_json.getString(Config.KEY_BARCODE);
+                    pr1 = bookpro_json.getString(Config.KEY_PRICE);
+                    image1=bookpro_json.getString(Config.KEY_IMAGEURL);
+                    id1=bookpro_json.getString("id");
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if(id1.equals("null"))
+                {
+
+                    Glide.with(mycontext).load("https://pbs.twimg.com/profile_images/786187830091407360/FUH63jZv.jpg")
+                            .thumbnail(0.5f)
+                            .crossFade()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(thumbnail1);
+                    title1.setText("Not Found");
+                    count1.setText("Not found");
+                    overflow1.setVisibility(View.INVISIBLE);
+                }
+                   else {
+                    Glide.with(mycontext).load("https://pbs.twimg.com/profile_images/786187830091407360/FUH63jZv.jpg")
+                            .thumbnail(0.5f)
+                            .crossFade()
+                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            .into(thumbnail1);
+                    title1.setText(pro1);
+                    count1.setText(pr1);
+
+                    overflow1.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            showPopupMenu(overflow1);
+                        }
+                    });
+                }
             }
-        });
-        Toast.makeText(mycontext,scanContent,Toast.LENGTH_SHORT).show();
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Toast.makeText(mycontext,error.getMessage().toString(),Toast.LENGTH_LONG).show();
+                    }
+                });
+
+        RequestQueue requestQueue1 = Volley.newRequestQueue(mycontext);
+        requestQueue1.add(stringRequest1);
     }
+
     private void showPopupMenu(View view) {
 
         PopupMenu popup = new PopupMenu(mycontext, view);
@@ -150,19 +235,20 @@ public class Data extends Fragment {
                     StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://bookpro.pe.hu/cart.php", new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Toast.makeText(mycontext, response, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mycontext, user_mail, Toast.LENGTH_SHORT).show();
+
                         }
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(mycontext, error.toString(), Toast.LENGTH_SHORT).show();
+                           // Toast.makeText(mycontext, error.toString(), Toast.LENGTH_SHORT).show();
                         }
                     }) {
                         @Override
                         protected Map<String, String> getParams() throws AuthFailureError {
 
                             Map<String, String> params = new HashMap<String, String>();
-                            params.put("email","nkt3156@gmail.com");
+                            params.put("email",user_mail);
                             params.put("id",id);
                             return params;
                         }

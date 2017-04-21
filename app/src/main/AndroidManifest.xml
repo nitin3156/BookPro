@@ -28,7 +28,8 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
 
-        <activity android:name=".LoginActivity"
+        <activity
+            android:name=".LoginActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -55,7 +56,8 @@
             android:name=".Usercart"
             android:label="@string/title_activity_usercart"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Test"></activity>
+        <activity android:name=".Test" />
+        <activity android:name=".ConfirmOrder"></activity>
     </application>
 
 </manifest>

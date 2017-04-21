@@ -109,7 +109,7 @@
 
         android:layout_below="@+id/linearLayout"
         android:layout_centerHorizontal="true"
-        android:onClick="send_mail" />
+        />
 
 
 

@@ -54,7 +54,8 @@ public class LoginActivity extends AppCompatActivity implements SurfaceHolder.Ca
     ShimmerTextView myShimmerTextView;
     Shimmer shimmer;
     ProgressDialog progressDialog;
-
+    TextView textView10;
+    String a;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,13 +90,20 @@ public class LoginActivity extends AppCompatActivity implements SurfaceHolder.Ca
         mFirebaseAuth = FirebaseAuth.getInstance();
         auth = FirebaseAuth.getInstance();
         button = (Button) findViewById(R.id.button);
+        textView10=(TextView)findViewById(R.id.textView10);
+        textView10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                send_mail();
+            }
+        });
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                LoginActivity.this.finish();
-                startActivity(intent);
-                String a = editText.getText().toString();
+                //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                //LoginActivity.this.finish();
+                //startActivity(intent);
+                a = editText.getText().toString();
                 String b = editText2.getText().toString();
                 if (editText.length() == 0) {
                     editText.setError("Email Required!!");
@@ -110,7 +118,10 @@ public class LoginActivity extends AppCompatActivity implements SurfaceHolder.Ca
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 Toast.makeText(getApplicationContext(), "Login is successful..", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), Home.class);
+                                intent.putExtra("personPhotoUrl", "");
+                                intent.putExtra("name", "User");
+                                intent.putExtra("emailp", a);
                                 LoginActivity.this.finish();
                                 startActivity(intent);
                             } else {
@@ -255,5 +266,29 @@ public class LoginActivity extends AppCompatActivity implements SurfaceHolder.Ca
             shimmer.start(myShimmerTextView);
         }
 
+    }
+    public void send_mail()
+    {
+        if(editText.length()==0)
+        {
+            editText.setError("Enter Email!!!");
+        }
+        else {
+            progressDialog.setMessage("Please Wait!!");
+            progressDialog.show();
+            auth.sendPasswordResetEmail(editText.getText().toString())
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(getApplicationContext(), "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Failed to send reset email!", Toast.LENGTH_SHORT).show();
+                            }
+
+                            progressDialog.dismiss();
+                        }
+                    });
+        }
     }
 }
